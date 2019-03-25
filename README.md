@@ -13,6 +13,8 @@ Calculate the weighted sum of the input image src and the accumulator dst so tha
 
 
 Average Image
+
+
 <img src="test/img/average.jpg" alt="Running verage" width="600"/>
 
 **ISSUE:** Incomplete background extrcation using the above method.
