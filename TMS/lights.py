@@ -31,11 +31,12 @@ class TrafficLight:
         GPIO.output(self.yellow_led, GPIO.LOW)
         GPIO.output(self.red_led, GPIO.HIGH)
 
-    def go_green(self):
+    def go_green(self, green_duration=30):
         """
         Become green_led
         """
         GPIO.output(self.green_led, GPIO.HIGH)
+        sleep(green_duration)
 
     def stop_traffic(self, duration=10):
         """
@@ -44,9 +45,9 @@ class TrafficLight:
         thread.start()
         return thread
 
-    def start_traffic(self, duration=10):
+    def start_traffic(self, duration=30):
         """
         """
-        thread = threading.Thread(target=self.go_green)
+        thread = threading.Thread(target=self.go_green, args(duration,))
         thread.start()
         return thread
