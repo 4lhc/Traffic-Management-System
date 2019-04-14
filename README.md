@@ -1,5 +1,5 @@
 # Traffic-Management-System
-Control traffic lights based on the vehicle density at four regions of interest in a traffic intersection. Live video stream obtained from here.
+Control traffic lights based on the vehicle density at four regions of interest at a traffic intersection. Live video stream obtained from here.
 
 ---
 
@@ -17,13 +17,6 @@ Average Image
 
 <img src="test/img/average.jpg" alt="Running verage" width="600"/>
 
-**ISSUE:** Incomplete background extrcation using the above method.
-
-**Possible Soln. :**
-
-- Changing alpha value.
-
-- Calculate running avg. for a larger number of frames.
 
 ---
 
