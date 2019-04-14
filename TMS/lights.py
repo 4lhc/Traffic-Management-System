@@ -35,6 +35,7 @@ class TrafficLight:
         """
         Become green_led
         """
+        GPIO.output(self.red_led, GPIO.LOW)
         GPIO.output(self.green_led, GPIO.HIGH)
         sleep(green_duration)
 
