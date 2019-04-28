@@ -1,6 +1,22 @@
-import Rpi.GPIO as GPIO
+# import sys
+# import fake_rpi
+# sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
+
+
+import RPi.GPIO as GPIO
 import threading
 from time import sleep
+
+
+#pin assignment
+# dict format --> {"light_num": [red, yellow, green]}
+light_pins = {"1" : [3, 5, 7],
+              "2" : [11, 13, 15],
+              "3" : [19, 21, 23],
+              "4" : [22, 24, 26],
+              "5" : [29, 31, 33],
+              "6" : [36, 38, 40]}
+
 
 class TrafficLight:
     """
@@ -49,6 +65,23 @@ class TrafficLight:
     def start_traffic(self, duration=30):
         """
         """
-        thread = threading.Thread(target=self.go_green, args(duration,))
+        thread = threading.Thread(target=self.go_green, args=(duration,))
         thread.start()
         return thread
+
+
+#creating traffic light objects
+traffic_lights = {}
+for key, value in light_pins.items():
+    traffic_lights[key] = TrafficLight(value[0], value[1], value[2])
+
+
+def turn_on(traffic_light):
+    """Accepts a string"""
+    print("{} turn on".format(traffic_light))
+    traffic_lights[traffic_light].start_traffic(duration=30)
+
+def turn_off(traffic_light):
+    """Accepts a string"""
+    print("{} turn off".format(traffic_light))
+    traffic_lights[traffic_light].stop_traffic(duration=10)
