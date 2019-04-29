@@ -1,9 +1,7 @@
-# import sys
-# import fake_rpi
-# sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
 
 
-import RPi.GPIO as GPIO
+import FakeRPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import threading
 from time import sleep
 
