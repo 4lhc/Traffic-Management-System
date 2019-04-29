@@ -3,5 +3,6 @@ inter.jpg
 pip-selfcheck.json
 *.mp4
 env
+*.pyc
 test/test_notebook.ipynb
 .ipynb_checkpoints
