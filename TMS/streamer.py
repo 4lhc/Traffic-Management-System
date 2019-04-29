@@ -19,7 +19,7 @@ def video_feed():
 
 
 """
-contact the following URL
+connect to the following URL
 http://0.0.0.0:5000/set_traffic_light?cmd=turn_on&traffic_light=1
 cmd = turn_on [OR turn_off]
 traffic_light = 1 -> first light
