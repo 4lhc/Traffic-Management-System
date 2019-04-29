@@ -38,6 +38,15 @@ def set_traffic_light():
     elif 'turn_off' in cmd:
         lights.turn_off(traffic_light)
 
+@app.route("/emergency_clear_route")
+def emergency_clear_route():
+    """Stop traffic for emergency vehicle for passsing"""
+    l = ["1", "2", "3", "4"]
+    for i in l:
+        lights.turn_off(l)
+
+
+
 
 
 if __name__ == "__main__":
