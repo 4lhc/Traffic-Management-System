@@ -42,8 +42,7 @@ class Density():
                 if a != -1 and b != -1:     #detect start and end pos
                     jpg = bytes[a:b+2]      #extract jpeg
                     bytes = bytes[b+2:]     #next jpeg item
-                    img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_COLOR) #decode jpg raw bytes to np array
-                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_GRAYSCALE) #decode jpg raw bytes to np array
                     for index, (mask, template) in enumerate(zip(self.masks, self.templates)):
                         roi = cv2.bitwise_and(gray, gray, mask=mask)
                         x1 = self.crop[index]["x1"]
