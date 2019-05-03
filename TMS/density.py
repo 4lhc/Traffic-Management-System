@@ -36,15 +36,16 @@ class Density():
         with urlopen(self.stream_url) as stream:
             bytes = b''
             while True:
-                bytes += stream.read(1024)
+                bytes += stream.read(60*1024)
                 a = bytes.find(b'\xff\xd8') #start bytes of mjpeg
                 b = bytes.find(b'\xff\xd9') #end bytes of mjpeg
                 if a != -1 and b != -1:     #detect start and end pos
                     jpg = bytes[a:b+2]      #extract jpeg
                     bytes = bytes[b+2:]     #next jpeg item
                     img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_GRAYSCALE) #decode jpg raw bytes to np array
+                    cv2.imshow("stream", img)
                     for index, (mask, template) in enumerate(zip(self.masks, self.templates)):
-                        roi = cv2.bitwise_and(gray, gray, mask=mask)
+                        roi = cv2.bitwise_and(img, img, mask=mask)
                         x1 = self.crop[index]["x1"]
                         y1 = self.crop[index]["y1"]
                         x2 = self.crop[index]["x2"]
@@ -64,3 +65,10 @@ class Density():
         """
         t = threading.Thread(target=self.process_stream)
         t.start()
+        return t
+
+    def get_max_density(self):
+        """
+        Return the position with max Density
+        """
+        return str(self.density.index(max(self.density)) + 1)

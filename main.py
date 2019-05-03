@@ -1,15 +1,27 @@
 from TMS.density import Density
 from time import sleep
+import requests
 
+DEMO_MODE = True
+
+ip = "0.0.0.0"
+port = "5000"
+url = 'http://{}:{}'.format(ip, port)
 
 def main():
-    stream_url = 'http://0.0.0.0:5000/video_feed'
+    stream_url = url + '/video_feed'
     d = Density(stream_url)
-    d.begin_processing()
+    t = d.begin_processing()
 
-    while True:
+    while t.isAlive():
         print("density = {}".format(d.density))
-        sleep(2)
+        traffic_ctrl_url = url + '/set_traffic_light'
+        parameters = {'cmd': 'turn_on', "traffic_light": d.get_max_density()}
+        r = requests.get(url = traffic_ctrl_url, params = parameters)
+        sleep(30)
+        #pause to do demo
+        if DEMO_MODE:
+            input("Press Enter")
 
 
 

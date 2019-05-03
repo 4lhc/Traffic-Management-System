@@ -4,13 +4,14 @@ from camera import VideoCamera
 import lights
 
 
-app = Flask(__name__)
+
+app = Flask(__name__) #create an webapp/webserver object
 
 def gen(camera):
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 @app.route('/video_feed')
 def video_feed():
@@ -35,8 +36,11 @@ def set_traffic_light():
 
     if 'turn_on' in cmd:
         lights.turn_on(traffic_light)
+        return "lights turn off"
     elif 'turn_off' in cmd:
         lights.turn_off(traffic_light)
+        return "lights turn off"
+
 
 @app.route("/emergency_clear_route")
 def emergency_clear_route():
@@ -44,6 +48,8 @@ def emergency_clear_route():
     l = ["1", "2", "3", "4"]
     for i in l:
         lights.turn_off(l)
+
+    return "Emergency"
 
 
 
