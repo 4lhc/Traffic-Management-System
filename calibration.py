@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 cap = cv2.VideoCapture(0)
 pts = np.empty(shape=(0, 2), dtype=np.int32)
@@ -25,16 +26,24 @@ def mouse_event(event, x, y, flag, param):
         curr_coord = (x, y)
 
 cv2.namedWindow("capture")
+ret, frame = cap.read()
 cv2.setMouseCallback("capture", mouse_event)
+mask = np.zeros(frame.shape, dtype=np.int32)
 while True:
     ret, frame = cap.read()
     draw_polygon(frame, pts)
     cv2.imshow("capture", frame)
-    if pts.shape[0] > 4:
-        fromCenter = False
-        r = cv2.selectROI(frame, fromCenter)
-        print(r)
+    if pts.shape[0] >= 4:
+        mask = cv2.fillConvexPoly(mask, pts , (255, 255, 255) )
+        #cropping
+        
+        cv2.imwrite("mask.jpg", mask)
         pts = np.empty(shape=(0, 2), dtype=np.int32)
+        fromCenter = False
+        img = cv2.imread("mask.jpg")
+        r = cv2.selectROI(img, fromCenter)
+        print(r)
+        exit(0)
 
     if cv2.waitKey(1) == 27:
         exit(0)
