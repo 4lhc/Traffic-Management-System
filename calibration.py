@@ -4,6 +4,7 @@ import time
 
 cap = cv2.VideoCapture(0)
 pts = np.empty(shape=(0, 2), dtype=np.int32)
+crop = []
 curr_coord = (0, 0)
 window_name = "capture"
 yellow = (0, 255, 255)
@@ -15,6 +16,15 @@ def draw_polygon(frame, pts):
         cv2.polylines(frame, [pts.reshape((-1,1,2))], closed, yellow)
         if not closed:
             cv2.line(frame, tuple(pts[-1]), curr_coord, yellow, stroke)
+
+def crop_frame(img, pts):
+    xs = pts[:,0]
+    ys = pts[:,1]
+    #finding bounding box
+    x1, y1, x2, y2 = min(xs), min(ys), max(xs), max(ys)
+    crop.append({"x1" : x1, "y1": y1, "x2" : x2,  "y2": y2})
+    #cropped img returned
+    return img[y1:y2, x1:x2]
 
 
 def mouse_event(event, x, y, flag, param):
@@ -36,7 +46,7 @@ while True:
     if pts.shape[0] >= 4:
         mask = cv2.fillConvexPoly(mask, pts , (255, 255, 255) )
         #cropping
-        
+        mask = crop_frame(mask, pts)
         cv2.imwrite("mask.jpg", mask)
         pts = np.empty(shape=(0, 2), dtype=np.int32)
         fromCenter = False
