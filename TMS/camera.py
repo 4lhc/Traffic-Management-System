@@ -4,7 +4,7 @@ class VideoCamera:
 
     def __init__(self):
         self.video = cv2.VideoCapture(0) #set capture device
-        # self.video = cv2.VideoCapture('../test/vid/h264-night.mp4')
+        # self.video = cv2.VideoCapture('../test/vid/h264-1.mp4')
         self.video.set(cv2.cv2.CAP_PROP_FPS, 15) #set framerate in fps
 
     def __del__(self):
