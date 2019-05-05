@@ -47,7 +47,7 @@ def emergency_clear_route():
     """Stop traffic for emergency vehicle for passsing"""
     l = ["1", "2", "3", "4"]
     for i in l:
-        lights.turn_off(l)
+        lights.turn_off(i)
 
     return "Emergency"
 
