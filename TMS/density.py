@@ -2,6 +2,7 @@ import cv2
 from urllib.request import urlopen
 import numpy as np
 import threading
+import json
 
 
 class Density():
@@ -24,10 +25,9 @@ class Density():
         self.masks = [cv2.imread(mask_file, cv2.IMREAD_GRAYSCALE)
                       for mask_file in self.mask_files]
 
-        self.crop = [{"x1": 970, "y1": 400, "x2":1279, "y2":500},
-                     {"x1": 755, "y1": 275, "x2":940, "y2":365},
-                     {"x1": 335, "y1": 335, "x2":528, "y2":400},
-                     {"x1": 300, "y1": 470, "x2":670, "y2":675}]
+        crop_file = "crop.json"
+        with open(crop_file, 'r') as fp:
+            self.crop = json.load(fp)
 
     def process_stream(self):
         """
@@ -42,15 +42,21 @@ class Density():
                 if a != -1 and b != -1:     #detect start and end pos
                     jpg = bytes[a:b+2]      #extract jpeg
                     bytes = bytes[b+2:]     #next jpeg item
-                    img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.IMREAD_GRAYSCALE) #decode jpg raw bytes to np array
+                    img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.COLOR_BGR2GRAY) #decode jpg raw bytes to np array
                     cv2.imshow("stream", img)
                     for index, (mask, template) in enumerate(zip(self.masks, self.templates)):
-                        roi = cv2.bitwise_and(img, img, mask=mask)
+                        mask = np.uint8(mask)
+                        img = np.uint8(img)
+                        template = np.uint8(mask)
                         x1 = self.crop[index]["x1"]
                         y1 = self.crop[index]["y1"]
                         x2 = self.crop[index]["x2"]
                         y2 = self.crop[index]["y2"]
-                        roi = roi[y1:y2, x1:x2]
+                        crop_img = img[y1:y2, x1:x2]
+                        # print(index, crop_img.shape, mask.shape )
+                        # print(crop_img.dtype, mask.dtype)
+                        roi = cv2.bitwise_and(crop_img, crop_img, mask=mask)
+                        # roi = roi[y1:y2, x1:x2]
                         res = cv2.matchTemplate(roi, template, cv2.TM_CCORR_NORMED)
                         self.density[index] = res[0][0]
 
