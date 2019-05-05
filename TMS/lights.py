@@ -1,6 +1,7 @@
 
-import FakeRPi.GPIO as GPIO
-# import RPi.GPIO as GPIO
+
+#import FakeRPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import threading
 from time import sleep
 
@@ -31,6 +32,9 @@ class TrafficLight:
         GPIO.setup(red_led, GPIO.OUT)
         GPIO.setup(green_led, GPIO.OUT)
         GPIO.setup(yellow_led, GPIO.OUT)
+        GPIO.output(red_led, GPIO.LOW)
+        GPIO.output(yellow_led, GPIO.LOW)
+        GPIO.output(green_led, GPIO.LOW)
 
 
 
@@ -70,7 +74,11 @@ class TrafficLight:
 #creating traffic light objects
 traffic_lights = {}
 for key, value in light_pins.items():
-    traffic_lights[key] = TrafficLight(value[0], value[1], value[2])
+    if key=="1" or key=="2" or key=="3":
+        traffic_lights[key] = TrafficLight(value[0], value[1], value[2])
+    else:
+        traffic_lights[key] = TrafficLight(value[0], value[2], value[1])
+
 
 
 def turn_on(traffic_light):
