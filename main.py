@@ -19,6 +19,12 @@ def main():
         traffic_ctrl_url = url + '/set_traffic_light'
         parameters = {'cmd': 'turn_on', "traffic_light": d.get_max_density()}
         r = requests.get(url = traffic_ctrl_url, params = parameters)
+
+        turn_off_lights = ["1", "2", "3", "4"]
+        for i in turn_off_lights:
+            parameters = {'cmd': 'turn_off', "traffic_light": i}
+            r = requests.get(url = traffic_ctrl_url, parameters = parameters)
+
         sleep(30)
         #pause to do demo
         if DEMO_MODE:
