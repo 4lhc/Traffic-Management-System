@@ -21,7 +21,7 @@ def main():
 
         turn_off_lights = ["1", "2", "3", "4"]
         for i in turn_off_lights:
-            if i not d.get_max_density()
+            if i != d.get_max_density():
                 parameters = {'cmd': 'turn_off', "traffic_light": i}
                 r = requests.get(url = traffic_ctrl_url, parameters = parameters)
 
