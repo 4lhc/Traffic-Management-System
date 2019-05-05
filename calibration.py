@@ -62,21 +62,21 @@ for i in range(intersection_count):
                 jpg = bytes[a:b+2]      #extract jpeg
                 bytes = bytes[b+2:]     #next jpeg item
                 gray = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8), cv2.COLOR_BGR2GRAY) #decode jpg raw bytes to np array
-            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # gray = np.uint8(gray)
-            mask = np.zeros(gray.shape, dtype=np.uint8)
-            # mask.fill(0)
-            draw_polygon(gray, pts)
-            cv2.imshow("capture", gray)
-            if pts.shape[0] >= 4:
-                mask = cv2.fillPoly(mask, [pts] , 255)
-                #cropping
-                mask = crop_frame(mask, pts)
-                gray = crop_frame(gray, pts)
-                roi = cv2.bitwise_and(gray, gray, mask=mask)
-                cv2.imwrite(mask_file.format(i+1), mask)
-                cv2.imwrite(template_file.format(i+1),roi)
-                break
+                # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                # gray = np.uint8(gray)
+                mask = np.zeros(gray.shape, dtype=np.uint8)
+                # mask.fill(0)
+                draw_polygon(gray, pts)
+                cv2.imshow("capture", gray)
+                if pts.shape[0] >= 4:
+                    mask = cv2.fillPoly(mask, [pts] , 255)
+                    #cropping
+                    mask = crop_frame(mask, pts)
+                    gray = crop_frame(gray, pts)
+                    roi = cv2.bitwise_and(gray, gray, mask=mask)
+                    cv2.imwrite(mask_file.format(i+1), mask)
+                    cv2.imwrite(template_file.format(i+1),roi)
+                    break
 
             if cv2.waitKey(1) == 27:
                 exit(0)
