@@ -4,7 +4,6 @@ import requests
 
 DEMO_MODE = True
 
-ip = "192.168.1.110"
 ip = "0.0.0.0"
 port = "5000"
 url = 'http://{}:{}'.format(ip, port)
@@ -22,8 +21,9 @@ def main():
 
         turn_off_lights = ["1", "2", "3", "4"]
         for i in turn_off_lights:
-            parameters = {'cmd': 'turn_off', "traffic_light": i}
-            r = requests.get(url = traffic_ctrl_url, parameters = parameters)
+            if i not d.get_max_density()
+                parameters = {'cmd': 'turn_off', "traffic_light": i}
+                r = requests.get(url = traffic_ctrl_url, parameters = parameters)
 
         sleep(30)
         #pause to do demo
