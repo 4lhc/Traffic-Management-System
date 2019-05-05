@@ -2,6 +2,7 @@ nohup.out
 inter.jpg
 pip-selfcheck.json
 *.mp4
+*.jpg
 env
 *.pyc
 test/test_notebook.ipynb
