@@ -77,6 +77,6 @@ class Density():
         """
         Return the position with max Density
         """
-        max_densty = str(self.density.index(max(self.density)) + 1)
+        max_densty = str(self.density.index(min(self.density)) + 1)
         print(max_density)
         return max_density
