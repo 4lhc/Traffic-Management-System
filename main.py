@@ -2,7 +2,7 @@ from TMS.density import Density
 from time import sleep
 import requests
 
-DEMO_MODE = True
+DEMO_MODE = False
 
 ip = "0.0.0.0"
 port = "5000"
@@ -23,9 +23,9 @@ def main():
         for i in turn_off_lights:
             if i != d.get_max_density():
                 parameters = {'cmd': 'turn_off', "traffic_light": i}
-                r = requests.get(url = traffic_ctrl_url, parameters = parameters)
+                r = requests.get(url = traffic_ctrl_url, params = parameters)
 
-        sleep(30)
+        sleep(5)
         #pause to do demo
         if DEMO_MODE:
             input("Press Enter")
